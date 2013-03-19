@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1E34014616EFCC5C003911E1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E34014516EFCC5C003911E1 /* main.cpp */; };
 		1E34014816EFCC5C003911E1 /* boost_ca.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E34014716EFCC5C003911E1 /* boost_ca.1 */; };
+		1E628FA416F61716004D5595 /* CellularAutomata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E628FA216F61716004D5595 /* CellularAutomata.cpp */; };
+		1E628FA716F61850004D5595 /* CellGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E628FA516F61850004D5595 /* CellGraph.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,10 @@
 		1E34014216EFCC5C003911E1 /* boost-ca */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "boost-ca"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E34014516EFCC5C003911E1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1E34014716EFCC5C003911E1 /* boost_ca.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = boost_ca.1; sourceTree = "<group>"; };
+		1E628FA216F61716004D5595 /* CellularAutomata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellularAutomata.cpp; sourceTree = "<group>"; };
+		1E628FA316F61716004D5595 /* CellularAutomata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellularAutomata.h; sourceTree = "<group>"; };
+		1E628FA516F61850004D5595 /* CellGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellGraph.cpp; sourceTree = "<group>"; };
+		1E628FA616F61850004D5595 /* CellGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellGraph.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +67,11 @@
 			isa = PBXGroup;
 			children = (
 				1E34014516EFCC5C003911E1 /* main.cpp */,
+				1E628FA216F61716004D5595 /* CellularAutomata.cpp */,
+				1E628FA316F61716004D5595 /* CellularAutomata.h */,
 				1E34014716EFCC5C003911E1 /* boost_ca.1 */,
+				1E628FA516F61850004D5595 /* CellGraph.cpp */,
+				1E628FA616F61850004D5595 /* CellGraph.h */,
 			);
 			path = "boost-ca";
 			sourceTree = "<group>";
@@ -118,6 +128,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E34014616EFCC5C003911E1 /* main.cpp in Sources */,
+				1E628FA416F61716004D5595 /* CellularAutomata.cpp in Sources */,
+				1E628FA716F61850004D5595 /* CellGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +230,7 @@
 				1E34014D16EFCC5C003911E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
