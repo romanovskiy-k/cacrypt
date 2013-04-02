@@ -6,4 +6,4 @@
 //  Copyright (c) 2013 mstu. All rights reserved.
 //
 
-#include "CellularAutomata.h"
+#include "CellCipher.h"

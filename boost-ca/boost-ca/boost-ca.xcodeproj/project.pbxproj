@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E34014616EFCC5C003911E1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E34014516EFCC5C003911E1 /* main.cpp */; };
 		1E34014816EFCC5C003911E1 /* boost_ca.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E34014716EFCC5C003911E1 /* boost_ca.1 */; };
-		1E628FA416F61716004D5595 /* CellularAutomata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E628FA216F61716004D5595 /* CellularAutomata.cpp */; };
+		1E628FA416F61716004D5595 /* CellCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E628FA216F61716004D5595 /* CellCipher.cpp */; };
 		1E628FA716F61850004D5595 /* CellGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E628FA516F61850004D5595 /* CellGraph.cpp */; };
 /* End PBXBuildFile section */
 
@@ -30,8 +30,8 @@
 		1E34014216EFCC5C003911E1 /* boost-ca */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "boost-ca"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E34014516EFCC5C003911E1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1E34014716EFCC5C003911E1 /* boost_ca.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = boost_ca.1; sourceTree = "<group>"; };
-		1E628FA216F61716004D5595 /* CellularAutomata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellularAutomata.cpp; sourceTree = "<group>"; };
-		1E628FA316F61716004D5595 /* CellularAutomata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellularAutomata.h; sourceTree = "<group>"; };
+		1E628FA216F61716004D5595 /* CellCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellCipher.cpp; sourceTree = "<group>"; };
+		1E628FA316F61716004D5595 /* CellCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellCipher.h; sourceTree = "<group>"; };
 		1E628FA516F61850004D5595 /* CellGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellGraph.cpp; sourceTree = "<group>"; };
 		1E628FA616F61850004D5595 /* CellGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellGraph.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,8 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				1E34014516EFCC5C003911E1 /* main.cpp */,
-				1E628FA216F61716004D5595 /* CellularAutomata.cpp */,
-				1E628FA316F61716004D5595 /* CellularAutomata.h */,
+				1E628FA216F61716004D5595 /* CellCipher.cpp */,
+				1E628FA316F61716004D5595 /* CellCipher.h */,
 				1E34014716EFCC5C003911E1 /* boost_ca.1 */,
 				1E628FA516F61850004D5595 /* CellGraph.cpp */,
 				1E628FA616F61850004D5595 /* CellGraph.h */,
@@ -128,7 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E34014616EFCC5C003911E1 /* main.cpp in Sources */,
-				1E628FA416F61716004D5595 /* CellularAutomata.cpp in Sources */,
+				1E628FA416F61716004D5595 /* CellCipher.cpp in Sources */,
 				1E628FA716F61850004D5595 /* CellGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +164,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/boost/1.49.0/include/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/Cellar/boost/1.49.0/lib/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -192,6 +196,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/boost/1.49.0/include/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/Cellar/boost/1.49.0/lib/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
@@ -200,6 +208,7 @@
 		1E34014C16EFCC5C003911E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = "-lboost_iostreams-mt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -207,6 +216,7 @@
 		1E34014D16EFCC5C003911E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = "-lboost_iostreams-mt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

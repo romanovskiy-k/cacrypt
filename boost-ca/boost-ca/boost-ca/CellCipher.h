@@ -11,7 +11,9 @@
 
 #include <iostream>
 
-class CellularAutomata {
+#include "CellGraph.h"
+
+class CellCipher {
     
 public:
     void printState();
