@@ -12,12 +12,13 @@ void RunBenchmark(cl::Device& dev, cl::Context& ctx, cl::CommandQueue& queue);
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	try
-	{
+	try{
 		bool verbose = false;
 		bool output = true;
 		// Initialization
-		if (verbose) cout << ">> initializing\n";
+		if (verbose) {
+			cout << ">> initializing\n";
+		}
 
 		cl_int err;
 		vector<cl::Platform> platforms;
@@ -30,10 +31,11 @@ int main(int argc, char *argv[])
 			exit(0);
 		}
 		int platform = 0;
-		if (platform < 0 || platform >= nPlatforms) { // platform ID out of range
-			cerr	<< "Platform index " << platform << " is out of range. "
-				<< "Specify a platform index between 0 and "
-				<< nPlatforms - 1 << endl;
+		if (platform < 0 || platform >= nPlatforms) {
+			// platform ID out of range
+			cerr << "Platform index " << platform << " is out of range. "
+			<< "Specify a platform index between 0 and "
+			<< nPlatforms - 1 << endl;
 			exit(-4);
 		}
 
@@ -51,21 +53,21 @@ int main(int argc, char *argv[])
 			exit(0);
 		}
 		int device = 0;
-		if (device < 0 || device >= nDevs) { // platform ID out of range
-			cerr	<< "Device index " << device << " is out of range. "
-				<< "Specify a device index between 0 and " << nDevs - 1
-				<< endl;
+		if (device < 0 || device >= nDevs) {                         // platform ID out of range
+			cerr << "Device index " << device << " is out of range. "
+			<< "Specify a device index between 0 and " << nDevs - 1
+			<< endl;
 			exit(-5);
 		}
 
 		cl::Device &clDevice = devs[0];
 		cl_device_id dev_id = clDevice();
-		if ( output ) {
-			cout	<< "Chose device:"
-				<< " name='" << clDevice.getInfo<CL_DEVICE_NAME>() << "'"
-				<< " index=" << device
-				<< " id=" << dev_id
-				<< endl;
+		if (output) {
+			cout << "Chose device:"
+			<< " name='" << clDevice.getInfo<CL_DEVICE_NAME>() << "'"
+			<< " index=" << device
+			<< " id=" << dev_id
+			<< endl;
 		}
 
 		cl::Device id = dev_id;
@@ -76,21 +78,19 @@ int main(int argc, char *argv[])
 
 		// Run the benchmark
 		RunBenchmark(id, ctx, queue);
-	}
-	catch( cl::Error e ){
+	}catch (cl::Error e) {
 		std::cerr << e.what() << '(' << e.err() << ')' << std::endl;
 
 		ret = 1;
-	}
-	catch( std::exception & e ){
+	}catch (std::exception & e) {
 		std::cerr << e.what() << std::endl;
 
 		ret = 1;
-	}
-	catch( ... ){
+	}catch (...) {
 		std::cerr << "unrecognized exception caught" << std::endl;
 
 		ret = 1;
 	}
 	return ret;
 }
+

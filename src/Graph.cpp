@@ -32,7 +32,6 @@ Graph::~Graph()
 
 void Graph::LoadMetisGraph(const char *filename)
 {
-
 	FILE *fp = fopen(filename, "r");
 
 	assert(fp);
@@ -44,26 +43,24 @@ void Graph::LoadMetisGraph(const char *filename)
 		fgets(charBuf, MAX_LINE_LENGTH, fp);
 		temp_token = strtok(charBuf, delimiters);
 
-		if (temp_token == NULL)
+		if (temp_token == NULL) {
 			continue;
-
-		else if (temp_token[0] == '%')
+		} else if (temp_token[0] == '%') {
 			continue;
-
-		else
+		} else {
 			break;
-
+		}
 	}
 
 	assert(isdigit(temp_token[0]));
-	num_verts  = atoi(temp_token);
+	num_verts = atoi(temp_token);
 	temp_token = strtok(NULL, delimiters);
 	assert(isdigit(temp_token[0]));
 	num_edges = atoi(temp_token);
 	temp_token = strtok(NULL, delimiters);
-	if (temp_token == NULL)
+	if (temp_token == NULL) {
 		graph_type = 0;
-	else{
+	} else {
 		assert(isdigit(temp_token[0]));
 		graph_type = atoi(temp_token);
 		if (graph_type != 0 && graph_type != 1 && graph_type != 100) {
@@ -89,8 +86,9 @@ void Graph::LoadMetisGraph(const char *filename)
 			edge_offsets[index - 1] = offset;
 			continue;
 		}
-		if (temp_token[0] == '%')
+		if (temp_token[0] == '%') {
 			continue;
+		}
 		assert(isdigit(temp_token[0]));
 
 		unsigned int vert = atoi(temp_token);
@@ -107,8 +105,9 @@ void Graph::LoadMetisGraph(const char *filename)
 
 			offset++;
 		}
-		if (max_degree < offset - edge_offsets[index - 1])
+		if (max_degree < offset - edge_offsets[index - 1]) {
 			max_degree = offset - edge_offsets[index - 1];
+		}
 	}
 
 	adj_list_length = offset;
@@ -126,13 +125,14 @@ void Graph::SaveMetisGraph(const char *filename)
 	assert(fp);
 
 	fprintf(fp, "%u %u", num_verts, num_edges);
-	if (graph_type != 0)
+	if (graph_type != 0) {
 		fprintf(fp, " %d", graph_type);
+	}
 	fprintf(fp, "\n");
 
 	for (int i = 0; i < num_verts; i++) {
 		unsigned int offset = edge_offsets[i];
-		unsigned int next  = edge_offsets[i + 1];
+		unsigned int next = edge_offsets[i + 1];
 		while (offset < next) {
 			fprintf(fp, "%u ", edge_list[offset]);
 			offset++;
@@ -162,12 +162,12 @@ unsigned int *Graph::GetEdgeList()
 	return edge_list;
 }
 
-unsigned int **Graph::GetEdgeOffsetsPtr()
+unsigned int * *Graph::GetEdgeOffsetsPtr()
 {
 	return &edge_offsets;
 }
 
-unsigned int **Graph::GetEdgeListPtr()
+unsigned int * *Graph::GetEdgeListPtr()
 {
 	return &edge_list;
 }
@@ -181,3 +181,4 @@ unsigned int Graph::GetAdjacencyListLength()
 {
 	return adj_list_length;
 }
+
