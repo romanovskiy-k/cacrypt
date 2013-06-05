@@ -7,7 +7,7 @@ __kernel void ecb_encrypt(
 	__global unsigned char *plainText,
 	__global unsigned char *cipherText,
 	__global unsigned char *key,
-	__global unsigned char *constantValue,
+	__global unsigned char *constantValue, // TODO: move it to local constants
 	__global unsigned int *adjacencyList,
 #ifdef __DEBUG
 	__global unsigned int *adjacencyListCopy,
@@ -26,7 +26,7 @@ __kernel void ecb_encrypt(
 
 	__local unsigned char keySchedule[64 * 4];
 
-	__local unsigned char left[128], right[128];
+	__local unsigned char left[128], right[128]; // TODO: allocate these arrays outside of kernel
 	__local unsigned char cellValues[230];
 	__local unsigned char temp[128];
 	__local unsigned char vars[6];
@@ -68,7 +68,7 @@ __kernel void ecb_encrypt(
 
 		// compute a few iterations of CA
 		barrier(CLK_LOCAL_MEM_FENCE);
-		unsigned int arg = 0;
+		unsigned long arg = 0;
 		for (size_t it = 0; it < 8; ++it) {
 			arg = 0;
 			if (localId < vertexEdgeCount)
