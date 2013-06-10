@@ -216,7 +216,7 @@ void RunBenchmark(
 	cl_command_queue queue = queuecpp();
 
 	//Get the graph filename
-	string inFileName = "/Users/lunatik/graph-metis.ca";
+	string inFileName = "graph-metis.ca";
 	//Create graph
 	Graph *G = new Graph();
 	//Load metis graph
