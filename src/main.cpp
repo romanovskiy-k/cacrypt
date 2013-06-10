@@ -12,6 +12,7 @@ void RunBenchmark(cl::Device& dev, cl::Context& ctx, cl::CommandQueue& queue);
 int main(int argc, char *argv[])
 {
 	const bool verbose = false;
+
 	cldump(verbose);
 	int ret = 0;
 	try {
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 			exit(0);
 		}
 		int device = 0;
-		if (device < 0 || device >= nDevs) {                                         // platform ID out of range
+		if (device < 0 || device >= nDevs) {                                                 // platform ID out of range
 			cerr << "Device index " << device << " is out of range. "
 			<< "Specify a device index between 0 and " << nDevs - 1
 			<< endl;

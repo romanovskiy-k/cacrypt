@@ -74,19 +74,17 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	unsigned char *cipherText = new unsigned char[dataSize];
 	unsigned char *key = new unsigned char[kKeySize];
 	unsigned char *constant = new unsigned char[constantSize];
-	for (size_t i = 0; i < dataSize; ++i) {
+	for (size_t i = 0; i < dataSize; ++i)
 		plainText[i] = rand() % 2;
-	}
-	for (size_t i = 0; i < kKeySize; ++i) {
+	for (size_t i = 0; i < kKeySize; ++i)
 		key[i] = rand() % 2;
-	}
-	for (size_t i = 0; i < constantSize; ++i) {
+	for (size_t i = 0; i < constantSize; ++i)
 		constant[i] = rand() % 2;
-	}
+
 #ifdef __DEBUG
-	memset((void*)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
+	memset((void *)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
 #endif
-	memset((void*)cipherText, 0, dataSize * sizeof(unsigned char));
+	memset((void *)cipherText, 0, dataSize * sizeof(unsigned char));
 	printf("%f mbytes\n", dataSize / (8.0 * 1024 * 1024));
 
 	// TODO: get edge count from graph
@@ -195,9 +193,8 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 #endif
 #ifdef __CHECK
 	for (size_t i = 0; i < 10; ++i)
-	{
 		printf("%d ", cipherText[i]);
-	}
+
 #endif
 	printf("\n");
 	clError = clReleaseKernel(kernel);
@@ -228,6 +225,7 @@ void RunBenchmark(
 	string inFileName = "graph-metis.ca";
 	//Create graph
 	Graph *G = new Graph();
+
 	//Load metis graph
 	G->LoadMetisGraph(inFileName.c_str());
 

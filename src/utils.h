@@ -13,124 +13,125 @@
 using std::cout;
 
 // macros to reduce pollution
-#define P(obj, w) cout << #w << ": " << obj->getInfo<w>() << "\n";
-#define Pmb(obj, w) cout << #w << ": " << obj->getInfo<w>() / (1024 * 1024) <<" MB \n";
-#define Pkb(obj, w) cout << #w << ": " << obj->getInfo<w>() / (1024 ) << " KB \n";
-#define Pbool(obj, w) cout << std::boolalpha << #w << ": " << static_cast<bool>(obj->getInfo<w>()) << "\n";
+#define P(obj, w) cout << # w << ": " << obj->getInfo<w>() << "\n";
+#define Pmb(obj, w) cout << # w << ": " << obj->getInfo<w>() / (1024 * 1024) << " MB \n";
+#define Pkb(obj, w) cout << # w << ": " << obj->getInfo<w>() / (1024) << " KB \n";
+#define Pbool(obj, w) cout << std::boolalpha << # w << ": " << static_cast<bool>(obj->getInfo<w>()) << "\n";
 
-#define PbitmapStart(obj, w) { unsigned bitmap = obj->getInfo<w>(); cout << #w << ": ";
-#define PbitmapTest(w) if (bitmap & w) cout << #w " ";
+#define PbitmapStart(obj, w) { unsigned bitmap = obj->getInfo<w>(); cout << # w << ": ";
+#define PbitmapTest(w) if (bitmap & w) {cout << # w " "; }
 #define PbitmapEnd cout << "\n"; }
 
-#define PconstStart(obj, w) { unsigned constant = obj->getInfo<w>(); cout << #w << ": ";
-#define PconstTest(w) if (constant == w) cout << #w "\n";
+#define PconstStart(obj, w) { unsigned constant = obj->getInfo<w>(); cout << # w << ": ";
+#define PconstTest(w) if (constant == w) {cout << # w "\n"; }
 #define PconstEnd }
 
 inline const char *CLErrorString(cl_int err)
 {
 	switch (err) {
 	case CL_SUCCESS:
-		return "CL_SUCCESS";                                                                                                    // break;
+		return "CL_SUCCESS";                                                                                                            // break;
 	case CL_DEVICE_NOT_FOUND:
-		return "CL_DEVICE_NOT_FOUND";                                                                                           // break;
+		return "CL_DEVICE_NOT_FOUND";                                                                                                   // break;
 	case CL_DEVICE_NOT_AVAILABLE:
-		return "CL_DEVICE_NOT_AVAILABLE";                                                                                       // break;
+		return "CL_DEVICE_NOT_AVAILABLE";                                                                                               // break;
 	case CL_COMPILER_NOT_AVAILABLE:
-		return "CL_COMPILER_NOT_AVAILABLE";                                                                                     // break;
+		return "CL_COMPILER_NOT_AVAILABLE";                                                                                             // break;
 	case CL_MEM_OBJECT_ALLOCATION_FAILURE:
-		return "CL_MEM_OBJECT_ALLOCATION_FAILURE";                                                                              // break;
+		return "CL_MEM_OBJECT_ALLOCATION_FAILURE";                                                                                      // break;
 	case CL_OUT_OF_RESOURCES:
-		return "CL_OUT_OF_RESOURCES";                                                                                           // break;
+		return "CL_OUT_OF_RESOURCES";                                                                                                   // break;
 	case CL_OUT_OF_HOST_MEMORY:
-		return "CL_OUT_OF_HOST_MEMORY";                                                                                         // break;
+		return "CL_OUT_OF_HOST_MEMORY";                                                                                                 // break;
 	case CL_PROFILING_INFO_NOT_AVAILABLE:
-		return "CL_PROFILING_INFO_NOT_AVAILABLE";                                                                               // break;
+		return "CL_PROFILING_INFO_NOT_AVAILABLE";                                                                                       // break;
 	case CL_MEM_COPY_OVERLAP:
-		return "CL_MEM_COPY_OVERLAP";                                                                                           // break;
+		return "CL_MEM_COPY_OVERLAP";                                                                                                   // break;
 	case CL_IMAGE_FORMAT_MISMATCH:
-		return "CL_IMAGE_FORMAT_MISMATCH";                                                                                      // break;
+		return "CL_IMAGE_FORMAT_MISMATCH";                                                                                              // break;
 	case CL_IMAGE_FORMAT_NOT_SUPPORTED:
-		return "CL_IMAGE_FORMAT_NOT_SUPPORTED";                                                                                 // break;
+		return "CL_IMAGE_FORMAT_NOT_SUPPORTED";                                                                                         // break;
 	case CL_BUILD_PROGRAM_FAILURE:
-		return "CL_BUILD_PROGRAM_FAILURE";                                                                                      // break;
+		return "CL_BUILD_PROGRAM_FAILURE";                                                                                              // break;
 	case CL_MAP_FAILURE:
-		return "CL_MAP_FAILURE";                                                                                                // break;
+		return "CL_MAP_FAILURE";                                                                                                        // break;
 	case CL_INVALID_VALUE:
-		return "CL_INVALID_VALUE";                                                                                              // break;
+		return "CL_INVALID_VALUE";                                                                                                      // break;
 	case CL_INVALID_DEVICE_TYPE:
-		return "CL_INVALID_DEVICE_TYPE";                                                                                        // break;
+		return "CL_INVALID_DEVICE_TYPE";                                                                                                // break;
 	case CL_INVALID_PLATFORM:
-		return "CL_INVALID_PLATFORM";                                                                                           // break;
+		return "CL_INVALID_PLATFORM";                                                                                                   // break;
 	case CL_INVALID_DEVICE:
-		return "CL_INVALID_DEVICE";                                                                                             // break;
+		return "CL_INVALID_DEVICE";                                                                                                     // break;
 	case CL_INVALID_CONTEXT:
-		return "CL_INVALID_CONTEXT";                                                                                            // break;
+		return "CL_INVALID_CONTEXT";                                                                                                    // break;
 	case CL_INVALID_QUEUE_PROPERTIES:
-		return "CL_INVALID_QUEUE_PROPERTIES";                                                                                   // break;
+		return "CL_INVALID_QUEUE_PROPERTIES";                                                                                           // break;
 	case CL_INVALID_COMMAND_QUEUE:
-		return "CL_INVALID_COMMAND_QUEUE";                                                                                      // break;
+		return "CL_INVALID_COMMAND_QUEUE";                                                                                              // break;
 	case CL_INVALID_HOST_PTR:
-		return "CL_INVALID_HOST_PTR";                                                                                           // break;
+		return "CL_INVALID_HOST_PTR";                                                                                                   // break;
 	case CL_INVALID_MEM_OBJECT:
-		return "CL_INVALID_MEM_OBJECT";                                                                                         // break;
+		return "CL_INVALID_MEM_OBJECT";                                                                                                 // break;
 	case CL_INVALID_IMAGE_FORMAT_DESCRIPTOR:
-		return "CL_INVALID_IMAGE_FORMAT_DESCRIPTOR";                                                                            // break;
+		return "CL_INVALID_IMAGE_FORMAT_DESCRIPTOR";                                                                                    // break;
 	case CL_INVALID_IMAGE_SIZE:
-		return "CL_INVALID_IMAGE_SIZE";                                                                                         // break;
+		return "CL_INVALID_IMAGE_SIZE";                                                                                                 // break;
 	case CL_INVALID_SAMPLER:
-		return "CL_INVALID_SAMPLER";                                                                                            // break;
+		return "CL_INVALID_SAMPLER";                                                                                                    // break;
 	case CL_INVALID_BINARY:
-		return "CL_INVALID_BINARY";                                                                                             // break;
+		return "CL_INVALID_BINARY";                                                                                                     // break;
 	case CL_INVALID_BUILD_OPTIONS:
-		return "CL_INVALID_BUILD_OPTIONS";                                                                                      // break;
+		return "CL_INVALID_BUILD_OPTIONS";                                                                                              // break;
 	case CL_INVALID_PROGRAM:
-		return "CL_INVALID_PROGRAM";                                                                                            // break;
+		return "CL_INVALID_PROGRAM";                                                                                                    // break;
 	case CL_INVALID_PROGRAM_EXECUTABLE:
-		return "CL_INVALID_PROGRAM_EXECUTABLE";                                                                                 // break;
+		return "CL_INVALID_PROGRAM_EXECUTABLE";                                                                                         // break;
 	case CL_INVALID_KERNEL_NAME:
-		return "CL_INVALID_KERNEL_NAME";                                                                                        // break;
+		return "CL_INVALID_KERNEL_NAME";                                                                                                // break;
 	case CL_INVALID_KERNEL_DEFINITION:
-		return "CL_INVALID_KERNEL_DEFINITION";                                                                                  // break;
+		return "CL_INVALID_KERNEL_DEFINITION";                                                                                          // break;
 	case CL_INVALID_KERNEL:
-		return "CL_INVALID_KERNEL";                                                                                             // break;
+		return "CL_INVALID_KERNEL";                                                                                                     // break;
 	case CL_INVALID_ARG_INDEX:
-		return "CL_INVALID_ARG_INDEX";                                                                                          // break;
+		return "CL_INVALID_ARG_INDEX";                                                                                                  // break;
 	case CL_INVALID_ARG_VALUE:
-		return "CL_INVALID_ARG_VALUE";                                                                                          // break;
+		return "CL_INVALID_ARG_VALUE";                                                                                                  // break;
 	case CL_INVALID_ARG_SIZE:
-		return "CL_INVALID_ARG_SIZE";                                                                                           // break;
+		return "CL_INVALID_ARG_SIZE";                                                                                                   // break;
 	case CL_INVALID_KERNEL_ARGS:
-		return "CL_INVALID_KERNEL_ARGS";                                                                                        // break;
+		return "CL_INVALID_KERNEL_ARGS";                                                                                                // break;
 	case CL_INVALID_WORK_DIMENSION:
-		return "CL_INVALID_WORK_DIMENSION";                                                                                     // break;
+		return "CL_INVALID_WORK_DIMENSION";                                                                                             // break;
 	case CL_INVALID_WORK_GROUP_SIZE:
-		return "CL_INVALID_WORK_GROUP_SIZE";                                                                                    // break;
+		return "CL_INVALID_WORK_GROUP_SIZE";                                                                                            // break;
 	case CL_INVALID_WORK_ITEM_SIZE:
-		return "CL_INVALID_WORK_ITEM_SIZE";                                                                                     // break;
+		return "CL_INVALID_WORK_ITEM_SIZE";                                                                                             // break;
 	case CL_INVALID_GLOBAL_OFFSET:
-		return "CL_INVALID_GLOBAL_OFFSET";                                                                                      // break;
+		return "CL_INVALID_GLOBAL_OFFSET";                                                                                              // break;
 	case CL_INVALID_EVENT_WAIT_LIST:
-		return "CL_INVALID_EVENT_WAIT_LIST";                                                                                    // break;
+		return "CL_INVALID_EVENT_WAIT_LIST";                                                                                            // break;
 	case CL_INVALID_EVENT:
-		return "CL_INVALID_EVENT";                                                                                              // break;
+		return "CL_INVALID_EVENT";                                                                                                      // break;
 	case CL_INVALID_OPERATION:
-		return "CL_INVALID_OPERATION";                                                                                          // break;
+		return "CL_INVALID_OPERATION";                                                                                                  // break;
 	case CL_INVALID_GL_OBJECT:
-		return "CL_INVALID_GL_OBJECT";                                                                                          // break;
+		return "CL_INVALID_GL_OBJECT";                                                                                                  // break;
 	case CL_INVALID_BUFFER_SIZE:
-		return "CL_INVALID_BUFFER_SIZE";                                                                                        // break;
+		return "CL_INVALID_BUFFER_SIZE";                                                                                                // break;
 	case CL_INVALID_MIP_LEVEL:
-		return "CL_INVALID_MIP_LEVEL";                                                                                          // break;
+		return "CL_INVALID_MIP_LEVEL";                                                                                                  // break;
 	case CL_INVALID_GLOBAL_WORK_SIZE:
-		return "CL_INVALID_GLOBAL_WORK_SIZE";                                                                                   // break;
+		return "CL_INVALID_GLOBAL_WORK_SIZE";                                                                                           // break;
 	case CL_INVALID_PROPERTY:
-		return "CL_INVALID_PROPERTY";                                                                                           // break;
+		return "CL_INVALID_PROPERTY";                                                                                                   // break;
 	default:
-		return "UNKNOWN";                                                                                                       // break;
+		return "UNKNOWN";                                                                                                               // break;
 	}
 }
 
-inline void cldump(bool verbose) {
+inline void cldump(bool verbose)
+{
 	try {
 		std::vector<cl::Platform> platforms;
 		(void)cl::Platform::get(&platforms);
@@ -142,18 +143,24 @@ inline void cldump(bool verbose) {
 			(void)platform->getDevices(CL_DEVICE_TYPE_ALL, &devices);
 			cout << "Number of devices: " << devices.size() << "\n";
 
-			if (verbose) P(platform, CL_PLATFORM_PROFILE);
+			if (verbose) {
+				P(platform, CL_PLATFORM_PROFILE);
+			}
 			P(platform, CL_PLATFORM_VERSION);
 			P(platform, CL_PLATFORM_NAME);
 			P(platform, CL_PLATFORM_VENDOR);
-			if (verbose) P(platform, CL_PLATFORM_EXTENSIONS);
+			if (verbose) {
+				P(platform, CL_PLATFORM_EXTENSIONS);
+			}
 
 			// dump device information
 			for (auto device = devices.begin(); device != devices.end(); ++device) {
 				P(device, CL_DEVICE_NAME);
 				P(device, CL_DEVICE_VENDOR);
 				P(device, CL_DRIVER_VERSION);
-				if (verbose) P(device, CL_DEVICE_PROFILE);
+				if (verbose) {
+					P(device, CL_DEVICE_PROFILE);
+				}
 				P(device, CL_DEVICE_VERSION);
 				P(device, CL_DEVICE_OPENCL_C_VERSION);
 
@@ -174,9 +181,10 @@ inline void cldump(bool verbose) {
 				P(device, CL_DEVICE_MAX_WORK_GROUP_SIZE);
 				std::vector<size_t> sizes = device->getInfo<CL_DEVICE_MAX_WORK_ITEM_SIZES>();
 				cout << "CL_DEVICE_MAX_WORK_ITEM_SIZES: ";
-				for (auto size = sizes.begin(); size != sizes.end(); ++size) { cout << *size << " "; }
+				for (auto size = sizes.begin(); size != sizes.end(); ++size)
+					cout << *size << " ";
 				cout << "\n";
-				
+
 				P(device, CL_DEVICE_MAX_CONSTANT_ARGS);
 				PconstStart(device, CL_DEVICE_LOCAL_MEM_TYPE);
 				PconstTest(CL_NONE);
@@ -260,8 +268,7 @@ inline void cldump(bool verbose) {
 				}
 			}
 		}
-	}
-	catch (...) {
+	}catch (...)  {
 		std::cerr << "ERROR!\n";
 	}
 }
