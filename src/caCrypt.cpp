@@ -4,20 +4,29 @@
 #include <math.h>
 #include <set>
 #include <string.h>
-#include <sys/time.h>
 #include <time.h>
 #include <string>
-
 #include <sstream>
+
+#ifndef WIN32
+#include <sys/time.h>
+#endif
 
 #include "Graph.h"
 #include "cl.hpp"
 #include "utils.h"
 
+#ifdef WIN32
+typedef unsigned long long int uint64_t;
+#endif
+
 using namespace std;
 
 const size_t kBlockSize = 256;
 const size_t kKeySize = 128;
+
+//#define __DEBUG
+#define __CHECK
 
 void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph *G)
 {
@@ -59,7 +68,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
 
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 8 * 10;
+	const size_t dataSize = 1024 * 1024 * 8 * 5;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -74,8 +83,10 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	for (size_t i = 0; i < constantSize; ++i) {
 		constant[i] = rand() % 2;
 	}
-	memset((void *)cipherText, 0, dataSize * sizeof(unsigned char));
-	// memset((void*)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
+#ifdef __DEBUG
+	memset((void*)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
+#endif
+	memset((void*)cipherText, 0, dataSize * sizeof(unsigned char));
 	printf("%f mbytes\n", dataSize / (8.0 * 1024 * 1024));
 
 	// TODO: get edge count from graph
@@ -100,7 +111,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	d_constant = clCreateBuffer(context, CL_MEM_READ_ONLY, constantSize * sizeof(cl_uchar), NULL, &clError);
 	CL_CHECK_ERROR(clError);
 
-	cl_kernel kernel = clCreateKernel(program, "ecb_encrypt", &clError);
+	cl_kernel kernel = clCreateKernel(program, "ecb_kernel", &clError);
 	CL_CHECK_ERROR(clError)
 
 	//index for kernel parameters
@@ -180,17 +191,15 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 #ifdef __DEBUG
 	for (size_t i = 0; i < 512; ++i)
 		printf("%d ", adjacencyListCopy[i]);
-#endif
 	printf("\n\n");
-	for (size_t i = 0; i < 512; ++i) {
+#endif
+#ifdef __CHECK
+	for (size_t i = 0; i < 10; ++i)
+	{
 		printf("%d ", cipherText[i]);
-		// if (plainText[i] != cipherText[i])
-		// {
-		//  printf("%lu, fail\n", i);
-		//  return;
-		// }
 	}
-
+#endif
+	printf("\n");
 	clError = clReleaseKernel(kernel);
 	CL_CHECK_ERROR(clError);
 

@@ -3,20 +3,19 @@
 constant size_t kBlockSize = 256;
 constant size_t kKeySize = 128;
 
-__kernel void ecb_encrypt(
-	__global unsigned char *plainText,
-	__global unsigned char *cipherText,
-	__global unsigned char *key,
-	__global unsigned char *constantValue, // TODO: move it to local constants
-	__global unsigned int *adjacencyList,
+__kernel void ecb_kernel(__global unsigned char* plainText,
+                          __global unsigned char* cipherText,
+                          __global unsigned char* key,
+                          __global unsigned char* constantValue, // TODO: move it to local constants
+                          __global unsigned int* adjacencyList,
 #ifdef __DEBUG
-	__global unsigned int *adjacencyListCopy,
+					      __global unsigned int *adjacencyListCopy,
 #endif
-	unsigned int vertexCount,
-	unsigned int vertexEdgeCount,
-	unsigned int blockSize,
-	unsigned int keySize,
-	unsigned int constantSize
+						unsigned int vertexCount,
+						unsigned int vertexEdgeCount,
+						unsigned int blockSize,
+						unsigned int keySize,
+						unsigned int constantSize
 	)
 {
 	size_t globalId = get_global_id(0);
@@ -30,15 +29,12 @@ __kernel void ecb_encrypt(
 	__local unsigned char cellValues[230];
 	__local unsigned char cellValuesNew[230];
 	__local unsigned char temp[128]; // TODO: try to use private memory
-	// __local unsigned char vars[6];
 
 	__local unsigned int alCopy[1380];
 
 	if (localId < 230)
 		for (int i = 0; i < 6; ++i)
 			alCopy[localId + 230 * i] = adjacencyList[localId + 230 * i];
-
-	barrier(CLK_LOCAL_MEM_FENCE);
 
 	if (localId < 128)
 		keySchedule[localId] = key[localId];
@@ -57,6 +53,9 @@ __kernel void ecb_encrypt(
 	else
 		right[localId - 128] = plainText[localId + blockId * kBlockSize];
 
+	barrier(CLK_LOCAL_MEM_FENCE);
+	
+	unsigned long arg = 0;
 	for (size_t roundNumber = 0; roundNumber < 4; ++roundNumber) {
 		if (localId < 128)
 			cellValues[localId] = temp[localId] = right[localId];
@@ -69,19 +68,28 @@ __kernel void ecb_encrypt(
 
 		// compute a few iterations of CA
 		barrier(CLK_LOCAL_MEM_FENCE);
-		unsigned long arg = 0;
 		for (size_t it = 0; it < 8; ++it) {
 			arg = 0;
 			if (localId < vertexEdgeCount)
-				arg |= cellValues[alCopy[localId + offset]] << localId; // TODO: replace offset with its value
-			barrier(CLK_LOCAL_MEM_FENCE);
+				if (it % 2) 
+				// odd iteration: cellValuesNew -> arg
+					arg |= cellValuesNew[alCopy[localId + offset]] << localId; 
+				else 
+				// even iteration cellValues -> arg
+					arg |= cellValues[alCopy[localId + offset]] << localId; 
 
+			barrier(CLK_LOCAL_MEM_FENCE);
 			// compute local link function
 			if (localId < vertexCount)
-				cellValuesNew[localId] = (arg & 0 && arg & 2 && arg & 4) ^ (arg & 4 && arg & 8) ^ (arg & 16 && arg & 32) ^ (arg & 4 && arg & 16) ^ (arg & 0 && arg & 16) ^ arg & 0 ^ arg & 2 ^ 1;
-			barrier(CLK_LOCAL_MEM_FENCE);
-			if (localId < vertexCount)
-				cellValues[localId] = cellValuesNew[localId]; // TODO: minimize copying (reuse cellValuesNew later)
+			{
+				if (it % 2)
+				// odd iteration: arg -> cellValues
+					cellValues[localId] = ((arg & 1) && (arg >> 1 & 1) && (arg >> 2 & 1)) ^ ((arg >> 2 & 1) && (arg >> 3 & 1)) ^ ((arg >> 4 & 1) && (arg >> 5 & 1)) ^ ((arg >> 2 & 1) && (arg >> 4 & 1)) ^ ((arg & 1) && (arg >> 4 & 1)) ^ (arg & 1) ^ (arg >> 1 & 1) ^ 1;
+				else
+				// even iteration: arg -> cellValuesNew
+					cellValuesNew[localId] = ((arg & 1) && (arg >> 1 & 1) && (arg >> 2 & 1)) ^ ((arg >> 2 & 1) && (arg >> 3 & 1)) ^ ((arg >> 4 & 1) && (arg >> 5 & 1)) ^ ((arg >> 2 & 1) && (arg >> 4 & 1)) ^ ((arg & 1) && (arg >> 4 & 1)) ^ (arg & 1) ^ (arg >> 1 & 1) ^ 1;
+
+			}
 			barrier(CLK_LOCAL_MEM_FENCE);
 		}
 		// L = R(-1)
@@ -90,6 +98,7 @@ __kernel void ecb_encrypt(
 			right[localId] = left[localId] ^ cellValues[localId];
 			left[localId] = temp[localId];
 		}
+		barrier(CLK_LOCAL_MEM_FENCE);
 	}
 
 	// now combine L||R and write to ciphertext
