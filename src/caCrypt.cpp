@@ -33,7 +33,11 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	srand(time(0));
 	cl_int clError;
 
+#ifdef WIN32
+	const char * sourceFileName = "../../src/cellauto.cl";
+#else
 	const char * sourceFileName = "cellauto.cl";
+#endif
 	std::ifstream file(sourceFileName);
 	CL_CHECK_ERROR(!file.is_open());
 	std::string kernelSource(std::istreambuf_iterator<char>(file), (std::istreambuf_iterator<char>()));
@@ -68,7 +72,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
 
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 8 * 5;
+	const size_t dataSize = 1024 * 1024 * 8;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -222,7 +226,12 @@ void RunBenchmark(
 	cl_command_queue queue = queuecpp();
 
 	//Get the graph filename
-	string inFileName = "graph-metis.ca";
+#ifdef WIN32
+	string inFileName = "../../graph-metis.ca";
+#else 
+	string inFileName = "../graph-metis.ca";
+#endif
+
 	//Create graph
 	Graph *G = new Graph();
 
