@@ -11,9 +11,10 @@ void RunBenchmark(cl::Device& dev, cl::Context& ctx, cl::CommandQueue& queue);
 
 int main(int argc, char *argv[])
 {
+	const bool verbose = false;
+	cldump(verbose);
 	int ret = 0;
-	try{
-		bool verbose = false;
+	try {
 		bool output = true;
 		// Initialization
 		if (verbose) {
