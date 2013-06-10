@@ -28,8 +28,9 @@ __kernel void ecb_encrypt(
 
 	__local unsigned char left[128], right[128]; // TODO: allocate these arrays outside of kernel
 	__local unsigned char cellValues[230];
-	__local unsigned char temp[128];
-	__local unsigned char vars[6];
+	__local unsigned char cellValuesNew[230];
+	__local unsigned char temp[128]; // TODO: try to use private memory
+	// __local unsigned char vars[6];
 
 	__local unsigned int alCopy[1380];
 
@@ -72,12 +73,15 @@ __kernel void ecb_encrypt(
 		for (size_t it = 0; it < 8; ++it) {
 			arg = 0;
 			if (localId < vertexEdgeCount)
-				arg |= cellValues[alCopy[localId + offset]] << localId;
+				arg |= cellValues[alCopy[localId + offset]] << localId; // TODO: replace offset with its value
 			barrier(CLK_LOCAL_MEM_FENCE);
 
 			// compute local link function
 			if (localId < vertexCount)
-				cellValues[localId] = (arg & 0 && arg & 2 && arg & 4) ^ (arg & 4 && arg & 8) ^ (arg & 16 && arg & 32) ^ (arg & 4 && arg & 16) ^ (arg & 0 && arg & 16) ^ arg & 0 ^ arg & 2 ^ 1;
+				cellValuesNew[localId] = (arg & 0 && arg & 2 && arg & 4) ^ (arg & 4 && arg & 8) ^ (arg & 16 && arg & 32) ^ (arg & 4 && arg & 16) ^ (arg & 0 && arg & 16) ^ arg & 0 ^ arg & 2 ^ 1;
+			barrier(CLK_LOCAL_MEM_FENCE);
+			if (localId < vertexCount)
+				cellValues[localId] = cellValuesNew[localId]; // TODO: minimize copying (reuse cellValuesNew later)
 			barrier(CLK_LOCAL_MEM_FENCE);
 		}
 		// L = R(-1)
