@@ -72,7 +72,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
 
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 8;
+	const size_t dataSize = 1024 * 1024 * 10;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -89,7 +89,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	memset((void *)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
 #endif
 	memset((void *)cipherText, 0, dataSize * sizeof(unsigned char));
-	printf("%f mbytes\n", dataSize / (8.0 * 1024 * 1024));
+	printf("%f mbytes\n", dataSize / (1024. * 1024));
 
 	// TODO: get edge count from graph
 	unsigned int vertexEdgeCount = 6;
