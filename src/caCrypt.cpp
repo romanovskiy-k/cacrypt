@@ -72,7 +72,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
 
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 10;
+	const size_t dataSize = 1024*1024 * 40;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -196,7 +196,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	printf("\n\n");
 #endif
 #ifdef __CHECK
-	for (size_t i = 0; i < 10; ++i)
+	for (size_t i = 0; i < 512; ++i)
 		printf("%d ", cipherText[i]);
 
 #endif

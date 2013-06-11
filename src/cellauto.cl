@@ -89,19 +89,20 @@ __kernel void ecb_kernel(__global unsigned char * plainText,
 		barrier(CLK_LOCAL_MEM_FENCE);
 		for (size_t it = 0; it < 8; ++it) {
 			arg = 0;
-			if (localId < vertexEdgeCount) {
-				if (it % 2) {
-					// odd iteration: cellValuesNew -> arg
-					arg |= cellValuesNew[alCopy[localId + offset]] << localId;
-				} else {
-					// even iteration cellValues -> arg
-					arg |= cellValues[alCopy[localId + offset]] << localId;
-				}
-			}
-
-			barrier(CLK_LOCAL_MEM_FENCE);
-			// compute local link function
 			if (localId < vertexCount) {
+				for (int i = 0; i < vertexEdgeCount; ++i) {
+				// if (localId < vertexEdgeCount) {
+					if (it % 2) {
+						// odd iteration: cellValuesNew -> arg
+						// arg |= cellValuesNew[alCopy[localId + offset]] << localId;
+						arg |= cellValuesNew[alCopy[i + offset]]<<i ;
+					} else {
+						// even iteration cellValues -> arg
+						// arg |= cellValues[alCopy[localId + offset]] << localId;
+						arg |= cellValues[alCopy[i + offset]]<<i;
+					}
+				}
+				// compute local link function
 				if (it % 2) {
 					// odd iteration: arg -> cellValues
 					cellValues[localId] = localLinkFunction[arg];
