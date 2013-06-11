@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cacrypt-cuda", "cacrypt-cuda\cacrypt-cuda.vcxproj", "{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		amd-debug|Win32 = amd-debug|Win32
+		amd-debug|x64 = amd-debug|x64
+		amd-release|Win32 = amd-release|Win32
+		amd-release|x64 = amd-release|x64
+		nv-debug|Win32 = nv-debug|Win32
+		nv-debug|x64 = nv-debug|x64
+		nv-release|Win32 = nv-release|Win32
+		nv-release|x64 = nv-release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-debug|Win32.ActiveCfg = amd-debug|Win32
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-debug|Win32.Build.0 = amd-debug|Win32
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-debug|x64.ActiveCfg = amd-debug|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-debug|x64.Build.0 = amd-debug|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-release|Win32.ActiveCfg = amd-release|Win32
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-release|Win32.Build.0 = amd-release|Win32
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-release|x64.ActiveCfg = amd-release|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.amd-release|x64.Build.0 = amd-release|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-debug|Win32.ActiveCfg = nv-release|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-debug|x64.ActiveCfg = nv-debug|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-debug|x64.Build.0 = nv-debug|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-release|Win32.ActiveCfg = nv-release|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-release|x64.ActiveCfg = nv-release|x64
+		{4B276F1B-E3CD-46D2-A271-D651A0A3EB49}.nv-release|x64.Build.0 = nv-release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
