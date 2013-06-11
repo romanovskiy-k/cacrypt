@@ -53,7 +53,10 @@ src/cacrypt
 *.bak
 *.exe
 *.ilk
+*.intermediate*
+*.lastbuildstate
 *.lib
+*.log
 *.log
 *.ncb
 *.opensdf
@@ -64,6 +67,7 @@ src/cacrypt
 *.suo
 *.tlb
 *.tlh
+*.tlog
 *.unsuccessfulbuild
 *.user
 *.vspscc
@@ -76,7 +80,3 @@ src/cacrypt
 Ankh.NoLoad
 ipch/
 obj/
-*.tlog
-*.log
-*.intermediate*
-*.lastbuildstate
