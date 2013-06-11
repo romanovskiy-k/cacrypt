@@ -1,7 +1,17 @@
 // #define __DEBUG
 
-constant size_t kBlockSize = 256;
-constant size_t kKeySize = 128;
+__constant size_t kBlockSize = 256;
+__constant size_t kKeySize = 128;
+__constant unsigned char localLinkFunction[64] = 
+	{1, 0, 0, 1, 1, 0, 0, 0, 
+	 1, 0, 0, 1, 0, 1, 1, 1, 
+	 1, 1, 0, 0, 0, 0, 1, 0, 
+	 1, 1, 0, 0, 1, 1, 0, 1, 
+	 1, 0, 0, 1, 1, 0, 0, 0, 
+	 1, 0, 0, 1, 0, 1, 1, 1, 
+	 0, 0, 1, 1, 1, 1, 0, 1, 
+	 0, 0, 1, 1, 0, 0, 1, 0};
+
 
 __kernel void ecb_kernel(__global unsigned char * plainText,
                          __global unsigned char * cipherText,
@@ -94,32 +104,10 @@ __kernel void ecb_kernel(__global unsigned char * plainText,
 			if (localId < vertexCount) {
 				if (it % 2) {
 					// odd iteration: arg -> cellValues
-					cellValues[localId] =
-					    ((arg & 1) && (arg >> 1 & 1) &&
-					     (arg >> 2 &
-					 1)) ^
-					    ((arg >> 2 & 1) &&
-					     (arg >> 3 &
-					 1)) ^
-					    ((arg >> 4 & 1) &&
-					     (arg >> 5 &
-					 1)) ^
-					    ((arg >> 2 & 1) &&
-					     (arg >> 4 & 1)) ^ ((arg & 1) && (arg >> 4 & 1)) ^ (arg & 1) ^ (arg >> 1 & 1) ^ 1;
+					cellValues[localId] = localLinkFunction[arg];
 				} else {
 					// even iteration: arg -> cellValuesNew
-					cellValuesNew[localId] =
-					    ((arg & 1) && (arg >> 1 & 1) &&
-					     (arg >> 2 &
-					 1)) ^
-					    ((arg >> 2 & 1) &&
-					     (arg >> 3 &
-					 1)) ^
-					    ((arg >> 4 & 1) &&
-					     (arg >> 5 &
-					 1)) ^
-					    ((arg >> 2 & 1) &&
-					     (arg >> 4 & 1)) ^ ((arg & 1) && (arg >> 4 & 1)) ^ (arg & 1) ^ (arg >> 1 & 1) ^ 1;
+					cellValuesNew[localId] = localLinkFunction[arg];
 				}
 			}
 			barrier(CLK_LOCAL_MEM_FENCE);
