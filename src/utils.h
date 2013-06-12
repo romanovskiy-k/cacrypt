@@ -138,7 +138,7 @@ inline void cldump(bool verbose)
 		cout << "Number of platforms: " << platforms.size() << "\n";
 
 		// dump platform information
-		for (auto platform = platforms.begin(); platform != platforms.end(); ++platform) {
+		for (std::vector<cl::Platform>::iterator platform = platforms.begin(); platform != platforms.end(); ++platform) {
 			std::vector<cl::Device> devices;
 			(void)platform->getDevices(CL_DEVICE_TYPE_ALL, &devices);
 			cout << "Number of devices: " << devices.size() << "\n";
@@ -154,7 +154,7 @@ inline void cldump(bool verbose)
 			}
 
 			// dump device information
-			for (auto device = devices.begin(); device != devices.end(); ++device) {
+			for (std::vector<cl::Device>::iterator device = devices.begin(); device != devices.end(); ++device) {
 				P(device, CL_DEVICE_NAME);
 				P(device, CL_DEVICE_VENDOR);
 				P(device, CL_DRIVER_VERSION);
@@ -181,7 +181,7 @@ inline void cldump(bool verbose)
 				P(device, CL_DEVICE_MAX_WORK_GROUP_SIZE);
 				std::vector<size_t> sizes = device->getInfo<CL_DEVICE_MAX_WORK_ITEM_SIZES>();
 				cout << "CL_DEVICE_MAX_WORK_ITEM_SIZES: ";
-				for (auto size = sizes.begin(); size != sizes.end(); ++size)
+				for (std::vector<size_t>::iterator size = sizes.begin(); size != sizes.end(); ++size)
 					cout << *size << " ";
 				cout << "\n";
 

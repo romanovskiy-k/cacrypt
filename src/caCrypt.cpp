@@ -72,7 +72,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
 
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 10;
+	const size_t dataSize = 1024 * 1024 * 20;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -227,9 +227,9 @@ void RunBenchmark(
 
 	//Get the graph filename
 #ifdef WIN32
-	string inFileName = "../../graph-metis.ca";
+	string inFileName = "../../src/graph-metis.ca";
 #else 
-	string inFileName = "../graph-metis.ca";
+	string inFileName = "graph-metis.ca";
 #endif
 
 	//Create graph
