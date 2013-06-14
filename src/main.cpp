@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
 	const bool verbose = false;
 
-	cldump(verbose);
+	//cldump(verbose);
 	int ret = 0;
 	try {
 		bool output = true;

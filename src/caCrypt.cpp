@@ -26,7 +26,7 @@ const size_t kBlockSize = 256;
 const size_t kKeySize = 128;
 
 //#define __DEBUG
-#define __CHECK
+//#define __CHECK
 
 void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph *G)
 {
@@ -70,9 +70,11 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 #endif
 	cl_mem d_adjacencyList;
 	cl_mem d_plainText, d_cipherText, d_key, d_constant;
-
+	cl_kernel kernel;
+	//for (int mult = 1; mult < 300; mult += 10)
+	//{
 	const size_t workGroupSize = 256;
-	const size_t dataSize = 1024 * 1024 * 20;
+	const size_t dataSize = 1024 * 1024 * 10;
 	const size_t constantSize = vertexCount - kBlockSize / 2 - kKeySize / 2;
 	unsigned char *plainText = new unsigned char[dataSize];
 	unsigned char *cipherText = new unsigned char[dataSize];
@@ -89,7 +91,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	memset((void *)adjacencyListCopy, 0, adjacencyListLength * sizeof(unsigned int));
 #endif
 	memset((void *)cipherText, 0, dataSize * sizeof(unsigned char));
-	printf("%f mbytes\n", dataSize / (1024. * 1024));
+	printf("%f Kbytes\n", dataSize / (1024.));
 
 	// TODO: get edge count from graph
 	unsigned int vertexEdgeCount = 6;
@@ -113,7 +115,7 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 	d_constant = clCreateBuffer(context, CL_MEM_READ_ONLY, constantSize * sizeof(cl_uchar), NULL, &clError);
 	CL_CHECK_ERROR(clError);
 
-	cl_kernel kernel = clCreateKernel(program, "ecb_kernel", &clError);
+	kernel = clCreateKernel(program, "ecb_kernel", &clError);
 	CL_CHECK_ERROR(clError)
 
 	//index for kernel parameters
@@ -200,15 +202,16 @@ void rts(cl_device_id device, cl_context context, cl_command_queue queue, Graph 
 		printf("%d ", cipherText[i]);
 
 #endif
-	printf("\n");
-	clError = clReleaseKernel(kernel);
-	CL_CHECK_ERROR(clError);
-
 	clError = clReleaseMemObject(d_plainText);
 	CL_CHECK_ERROR(clError);
 	clError = clReleaseMemObject(d_cipherText);
 	CL_CHECK_ERROR(clError);
 	clError = clReleaseMemObject(d_adjacencyList);
+	CL_CHECK_ERROR(clError);
+//	}
+
+	printf("\n");
+	clError = clReleaseKernel(kernel);
 	CL_CHECK_ERROR(clError);
 
 	clError = clReleaseProgram(program);
